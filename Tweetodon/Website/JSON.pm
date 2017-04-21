@@ -155,7 +155,6 @@ sub application_import_accounts {
 	my @accounts;
 	foreach my $acc ($a->get_handler()->import_accounts_from_application()){
 		my %account;
-		print STDERR Dumper($acc);
 		$account{"username"} = $$acc{"username"};
 		$account{"disabled"} = $$acc{"disabled"};
 		push @accounts, \%account;

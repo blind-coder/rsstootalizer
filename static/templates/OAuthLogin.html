@@ -1,6 +1,11 @@
 <TMPL_INCLUDE NAME='_header.html'>
 <script type="text/javascript">
-var l = "https://<TMPL_VAR NAME='instance'>/oauth/authorize?response_type=code&client_id=<TMPL_VAR NAME='instance_client_id'>&redirect_uri="+encodeURIComponent("<TMPL_VAR NAME='instance_redirect_uri'>")+"&scope=read%20write";
+var l;
+if ("<TMPL_VAR NAME='token_is_valid'>" == "true"){
+	l = "index.pl?mode=Dashboard";
+} else {
+	l = "<TMPL_VAR NAME='instance'>/oauth/authorize?response_type=code&client_id=<TMPL_VAR NAME='instance_client_id'>&redirect_uri="+encodeURIComponent("<TMPL_VAR NAME='instance_redirect_uri'>")+"&scope=read%20write";
+}
 document.location.href=l;
 </script>
 <TMPL_INCLUDE NAME='_footer.html'>

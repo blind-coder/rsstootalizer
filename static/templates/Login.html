@@ -2,9 +2,9 @@
 <div class="container">
 
 	<form class="form-signin" method="POST" action="index.pl">
-		<h2 class="form-signin-heading">Please sign in</h2>
-		<label for="inputUsername" class="sr-only">Username</label>
-		<input type="username" id="inputUsername" name="inputUsername" class="form-control" placeholder="username@mastodon.social" required autofocus>
+		<h2 class="form-signin-heading">Please enter your Mastodon instance URL</h2>
+		<label for="inputUsername" class="sr-only">Mastodon instance URL</label>
+		<input type="url" id="inputInstance" name="inputInstance" class="form-control" placeholder="mastodon.social" required autofocus>
 		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 
 		<input type="hidden" id="mode" name="mode" value="OAuthLogin">

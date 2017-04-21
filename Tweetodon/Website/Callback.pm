@@ -26,10 +26,7 @@ sub prerender {
 	$self->{"content_type"} = "html";
 	$self->{"params"}->{"currentmode"} = "Callback";
 
-	my ($user, $instance);
-	$main::FORM{Username} =~ /^(.*?)@(.*)$/;
-	$user = $1;
-	$instance = $2;
+	my $instance = $main::FORM{instance};
 
 	my $app = Tweetodon::App->get_or_create_by_instance($instance);
 
@@ -42,7 +39,8 @@ sub prerender {
 	close DATA;
 	$reply = decode_json($reply);
 
-	Tweetodon::DB->doINSERT("INSERT INTO tokens (access_token, token_type, scope, created_at, username) VALUES (?, ?, ?, ?, ?)", $reply->{access_token}, $reply->{token_type}, $reply->{scope}, $reply->{created_at}, $main::FORM{Username});
+	$self->{"set_cookie"} = ("token=".$reply->{access_token});
+	# Tweetodon::DB->doINSERT("INSERT INTO tokens (access_token, token_type, scope, created_at, username) VALUES (?, ?, ?, ?, ?)", $reply->{access_token}, $reply->{token_type}, $reply->{scope}, $reply->{created_at}, $main::FORM{Username});
 	#{"access_token":"9615e561d0cf3cb54799ecc381f10b059e781dac2b180e708dcd66683c1cdb81","token_type":"bearer","scope":"read write","created_at":1492718172}
 }
 

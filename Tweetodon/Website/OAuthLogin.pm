@@ -5,6 +5,7 @@ use HTML::Template;
 use Tweetodon::Website;
 use Tweetodon::App;
 use Tweetodon::Token;
+use Tweetodon::User;
 
 package Tweetodon::Website::OAuthLogin;
 @Tweetodon::Website::OAuthLogin::ISA = qw(Tweetodon::Website);
@@ -21,24 +22,35 @@ sub fill_content {
 
 sub prerender {
 	my $self = shift;
+	my $instance = $main::FORM{inputInstance};
+	$instance = $main::FORM{instance} unless defined($instance);
+
 	$self->{"template"} = "OAuthLogin";
 	$self->{"content_type"} = "html";
-	$self->{"set_cookie"} = ("Username=".$main::FORM{inputUsername});
+	$self->{"set_cookie"} = ("instance=".$instance);
 	$self->{"params"}->{"currentmode"} = "OAuthLogin";
 
-	my ($username, $instance);
-	$main::FORM{inputUsername} =~ /^(.*?)@(.*)$/;
-	$username = $1;
-	$instance = $2;
-
 	my $app = Tweetodon::App->get_or_create_by_instance($instance);
-	my $token = Tweetodon::Token->get_by("username", $main::FORM{inputUsername});
-	print STDERR Dumper($token);
+	$self->{params}->{instance_redirect_uri} = $main::config->{app}->{redirect_uris};
+	$self->{params}->{instance_client_id} = $app->{data}->{instance_client_id};
+	$self->{params}->{instance} = $instance;
+	$self->{params}->{token_is_valid} = "false";
 
-	unless ($token){
-		$self->{params}->{instance_redirect_uri} = $main::config->{app}->{redirect_uris};
-		$self->{params}->{instance_client_id} = $app->{data}->{instance_client_id};
-		$self->{params}->{instance} = $instance;
+	my $token = $main::FORM{token};
+
+	if (defined($token)){
+		#open(DATA, "./verify_credentials.bash '$token' '$instance'|");
+		#my $reply;
+		#{
+		#$/ = undef;
+		#$reply = <DATA>;
+		#}
+		#close DATA;
+		#$reply = decode_json($reply);
+		if (Tweetodon::User->authenticate()){
+			$self->{params}->{token_is_valid} = "true";
+		}
+		# {"error":"The access token is invalid"}
 	}
 }
 

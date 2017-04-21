@@ -15,19 +15,16 @@ sub orderBy :lvalue { "invalid"; }
 sub authenticate {
 	my $class = shift;
 
-	my $username = $main::FORM{Username};
-	$username =~ /^(.*?)@(.*)$/;
-	my $instance = $2;
-	my $token = Tweetodon::Token->get_by("username", $main::FORM{Username});
+	my $instance = $main::FORM{instance};
+	my $token = $main::FORM{token};
 	if ($token){
-		open(DATA, "./verify_token.bash '$token->{data}->{access_token}' '$instance'|");
+		open(DATA, "./verify_credentials.bash '$token' '$instance'|");
 		my $reply;
 		{
 			$/ = undef;
 			$reply = <DATA>
 		}
 		close DATA;
-		print STDERR "$reply\n";
 		$reply = decode_json($reply);
 		#{"error":"The access token is invalid"}
 		if (defined($$reply{error})){

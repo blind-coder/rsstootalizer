@@ -7,8 +7,31 @@
 		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
 			<h2 class="sub-header">Your account</h2>
 			<div class="row placeholders">
-				<h4>Foo</h4>
-				<span class="text-muted">Bar</span>
+				<h4><TMPL_VAR NAME="acct_acct"></h4>
+				<table class="table table-hover">
+					<tbody>
+						<tr>
+							<td>User ID</td>
+							<td><span class="text-muted"><TMPL_VAR NAME="acct_id"></span></td>
+						</tr>
+						<tr>
+							<td>Display name</td>
+							<td><span class="text-muted"><TMPL_VAR NAME="acct_display_name"></span></td>
+						</tr>
+						<tr>
+							<td>Followers</td>
+							<td><span class="text-muted"><TMPL_VAR NAME="acct_followers_count"></span></td>
+						</tr>
+						<tr>
+							<td>Following</td>
+							<td><span class="text-muted"><TMPL_VAR NAME="acct_following_count"></span></td>
+						</tr>
+						<tr>
+							<td>Statuses posted</td>
+							<td><span class="text-muted"><TMPL_VAR NAME="acct_statuses_count"></span></td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 
 			<h2 class="sub-header">Your feeds</h2>
@@ -21,10 +44,12 @@
 						</tr>
 					</thead>
 					<tbody>
+						<TMPL_LOOP NAME="FEEDS">
 						<tr>
-							<td>123</td>
-							<td>http://...</td>
+							<td><TMPL_VAR NAME="count"></td>
+							<td><TMPL_VAR NAME="url"></td>
 						</tr>
+						</TMPL_LOOP>
 					</tbody>
 				</table>
 			</div>
