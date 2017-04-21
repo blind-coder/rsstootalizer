@@ -1,0 +1,19 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+	<div class="container-fluid">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Tweetodon</a>
+		</div>
+		<div id="navbar" class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="index.pl?mode=Settings&session_uuid=<TMPL_VAR NAME="currentuser.session_uuid">">Settings</a></li>
+				<li><a href="index.pl?mode=Logout&session_uuid=<TMPL_VAR NAME="currentuser.session_uuid">">Logout</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

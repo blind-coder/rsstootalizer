@@ -1,0 +1,13 @@
+{
+	"mysql": {
+		"host": "mysql.example.com",
+		"database": "tweetodon",
+		"user": "tweetodon",
+		"pass": "secret123"
+	},
+	"app": {
+		"client_name": "Tweetodon privatehosted",
+		"redirect_uris": "https://www.example.com/cgi-bin/tweetodon/callback.pl",
+		"website": "https://www.example.com/cgi-bin/tweetodon/index.pl?mode=About"
+	}
+}

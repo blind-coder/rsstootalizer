@@ -1,0 +1,4 @@
+{
+	"status": "<TMPL_VAR NAME='status'>",
+	"msg"   : "<TMPL_VAR NAME='msg'>"
+}
