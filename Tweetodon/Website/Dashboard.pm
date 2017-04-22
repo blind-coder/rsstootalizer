@@ -22,7 +22,11 @@ sub fill_content {
 
 	my @param_feeds;
 	my $count = 0;
-	foreach my $feed (@feeds){
+	FEED: foreach my $feed (@feeds){
+		if ($main::FORM{delete} and "x".$main::FORM{delete} eq "x".$feed->{data}->{ID}){
+			$feed->delete();
+			next FEED;
+		}
 		my %r;
 		$count++;
 		$r{"count"} = $count;
