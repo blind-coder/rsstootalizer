@@ -10,8 +10,6 @@ use Tweetodon::Website;
 
 package Tweetodon::Website::EditFeed;
 use Data::Dumper;
-use XML::Feed;
-use URI;
 @Tweetodon::Website::EditFeed::ISA = qw(Tweetodon::Website);
 
 sub requires_authentication {
@@ -60,10 +58,9 @@ sub fill_content {
 		}
 	}
 
-	$XML::Feed::MULTIPLE_ENCLOSURES = 1;
-	my $feeddata = XML::Feed->parse(URI->new($feed->{data}->{url}));
 	my @param_entries;
 	my @filters = $feed->filters();
+	my $feeddata = $feed->fetch_entries();
 	foreach my $entry ($feeddata->items){
 		my %entry;
 		$entry{title} = $entry->title();
@@ -75,7 +72,7 @@ sub fill_content {
 		$entry{id} = $entry->id();
 		$entry{tags} = join(", ", $entry->tags());
 
-		$entry{class} = "green";
+		$entry{class} = "red";
 		foreach my $filter (@filters){
 			if ($filter->apply($entry)){
 				if ($filter->{data}->{type} eq "white"){

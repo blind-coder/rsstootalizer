@@ -7,6 +7,9 @@ package Tweetodon::Feed;
 use JSON;
 use Data::Dumper;
 use Tweetodon::Filter;
+use Tweetodon::Entry;
+use XML::Feed;
+use URI;
 
 sub dbTable :lvalue { "feeds"; }
 sub orderBy :lvalue { "url ASC"; }
@@ -26,6 +29,19 @@ sub get_by_user_instance {
 
 	return @retVal;
 }
+sub create_and_fetch {
+	my $class = shift;
+	my %data = @_;
+
+	my $self = $class->create(%data);
+	my $feeddata = $self->fetch_entries();
+	foreach my $entry ($feeddata->items){
+		my %ne;
+		$ne{feed_id} = $self->{data}->{ID};
+		$ne{entry_link} = $entry->link();
+		Tweetodon::Entry->create(%ne);
+	}
+}
 
 # Object methods
 sub filters {
@@ -37,6 +53,13 @@ sub filters {
 		push @retVal, Tweetodon::Filter->new($r);
 	}
 	return @retVal;
+}
+
+sub fetch_entries {
+	my $self = shift;
+
+	$XML::Feed::MULTIPLE_ENCLOSURES = 1;
+	return XML::Feed->parse(URI->new($self->{data}->{url}));
 }
 
 1;

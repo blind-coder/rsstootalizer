@@ -18,8 +18,17 @@ sub requires_authentication {
 sub fill_content {
 	my $class = shift;
 	my $output = shift;
-	my @feeds = Tweetodon::Feed->get_by_user_instance($main::CURRENTUSER->{data}->{acct}, $main::FORM{instance});
 
+	if ($main::FORM{inputURL}){
+		my %nf;
+		$nf{url} = $main::FORM{inputURL};
+		$nf{username} = $main::CURRENTUSER->{data}->{acct};
+		$nf{instance} = $main::FORM{instance};
+		$nf{enabled} = "n";
+		my $feed = Tweetodon::Feed->create_and_fetch(%nf);
+	}
+
+	my @feeds = Tweetodon::Feed->get_by_user_instance($main::CURRENTUSER->{data}->{acct}, $main::FORM{instance});
 	my @param_feeds;
 	my $count = 0;
 	FEED: foreach my $feed (@feeds){
@@ -30,6 +39,14 @@ sub fill_content {
 		my %r;
 		$count++;
 		$r{"count"} = $count;
+		if ($main::FORM{enable} and "x".$main::FORM{enable} eq "x".$feed->{data}->{ID}){
+			$feed->{data}->{enabled} = "1";
+			$feed->save();
+		}
+		if ($main::FORM{disable} and "x".$main::FORM{disable} eq "x".$feed->{data}->{ID}){
+			$feed->{data}->{enabled} = "0";
+			$feed->save();
+		}
 		foreach my $key (keys %{$feed->{data}}){
 			$r{$key} = $feed->{data}->{$key};
 		}

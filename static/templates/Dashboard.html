@@ -48,13 +48,20 @@
 						<tr>
 							<td><TMPL_VAR NAME="count"></td>
 							<td><TMPL_VAR NAME="url"></td>
+							<td><TMPL_IF NAME="enabled"><a class="btn btn-danger disable" data-id="<TMPL_VAR NAME="ID">" href="#">Disable</a><TMPL_ELSE><a class="btn btn-default enable" data-id="<TMPL_VAR NAME="ID">" href="#">Enable</a></TMPL_IF></td>
 							<td><a class="btn btn-default" href="index.pl?mode=EditFeed&id=<TMPL_VAR NAME="ID">">Edit</a></td>
 							<td><a class="btn btn-danger deleteFeed" href="#" data-id="<TMPL_VAR NAME="ID">">Delete</a></td>
 						</tr>
 						</TMPL_LOOP>
 					</tbody>
 				</table>
-				<a class="btn btn-primary">Add new feed</a>
+				<a class="btn btn-primary addFeed" href="#">Add new feed</a>
+				<form class="form" id="addFeed" method="POST">
+					<input type="hidden" name="mode" value="<TMPL_VAR NAME="currentmode">">
+					<label for="inputURL">RSS Feed URL</label>
+					<input type="url" id="inputURL" name="inputURL" class="form-control" placeholder="https://www.example.com/rss.xml">
+					<button class="btn btn-lg btn-primary btn-block" type="submit">Add Feed</button>
+				</form>
 			</div>
 		</div>
 	</div>
