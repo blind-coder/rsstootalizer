@@ -1,0 +1,72 @@
+<TMPL_INCLUDE NAME='_header.html'>
+<TMPL_INCLUDE NAME='_navbar.html'>
+
+<div class="container-fluid">
+	<div class="row">
+		<TMPL_INCLUDE NAME='_sidebar.html'>
+		<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+			<h2 class="sub-header"><TMPL_VAR NAME="url"></h2>
+			<a id="togglerawentries" class="btn btn-info">Show raw entries</a><br >
+
+			<div id="rawentries" class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Title</th>
+							<th>Link</th>
+							<th>Content</th>
+							<th>Author</th>
+							<th>Issued</th>
+							<th>Modified</th>
+							<th>Tags</th>
+						</tr>
+					</thead>
+					<tbody>
+						<TMPL_LOOP NAME="ENTRIES">
+						<tr class="<TMPL_VAR NAME="class">">
+							<td><TMPL_VAR NAME="id"></td>
+							<td><TMPL_VAR NAME="title"></td>
+							<td><TMPL_VAR NAME="link"></td>
+							<td><TMPL_VAR NAME="content"></td>
+							<td><TMPL_VAR NAME="author"></td>
+							<td><TMPL_VAR NAME="issued"></td>
+							<td><TMPL_VAR NAME="modified"></td>
+							<td><TMPL_VAR NAME="tags"></td>
+						</tr>
+						</TMPL_LOOP>
+					</tbody>
+				</table>
+			</div>
+
+			<form id="form_filters" method="POST">
+			<input type="hidden" name="action" value="save">
+			<h3>Filters</h3>
+			<div id="filters" class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Field</th>
+							<th>Matches</th>
+							<th>Regex</th>
+							<th>Type</th>
+							<th>Delete</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<a id="savefilters" class="btn btn-default" href="#">Save filters</a> <a id="addfilter" class="btn btn-danger">Add filter</a>
+			</div>
+			</form>
+
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+var filters = [];
+<TMPL_LOOP NAME="FILTERS">
+filters.push({ID: <TMPL_VAR NAME="ID">, field: "<TMPL_VAR NAME="field">", regex: decodeURIComponent("<TMPL_VAR ESCAPE=URL NAME="regex">"), type: "<TMPL_VAR NAME="type">", match: "<TMPL_VAR NAME="match">"});
+</TMPL_LOOP>
+</script>
+<TMPL_INCLUDE NAME='_footer.html'>

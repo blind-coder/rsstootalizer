@@ -35,9 +35,9 @@ sub create {
 	my %data = @_;
 
 	Tweetodon::DB->doINSERThash($class->dbTable, %data);
-	my $data = Tweetodon::DB->doSELECT("SELECT * FROM ".$class->dbTable." WHERE id = LAST_INSERT_ID()");
+	my $data = Tweetodon::DB->doSELECT("SELECT * FROM ".$class->dbTable." WHERE ID = LAST_INSERT_ID()");
 	$data = $$data[0];
-	return $class->get_by("id", $$data{id});
+	return $class->get_by("ID", $$data{ID});
 }
 sub new {
 	my $this = shift;
@@ -55,10 +55,15 @@ sub save {
 	my $self = shift;
 
 	if (exists($self->{"data"}->{"password"}) && "x".$self->{"data"}->{"password"} ne "x"){
-		$self->{"data"}->{"password"} = md5_hex($self->{"data"}->{"id"}.$self->{"data"}->{"password"});
+		$self->{"data"}->{"password"} = md5_hex($self->{"data"}->{"ID"}.$self->{"data"}->{"password"});
 	} else {
 		delete $self->{"data"}->{"password"};
 	}
-	return Tweetodon::DB->doUPDATEhash($self->dbTable, "id = ".$self->{"data"}->{"id"}, %{$self->{"data"}});
+	return Tweetodon::DB->doUPDATEhash($self->dbTable, "ID = ".$self->{"data"}->{"ID"}, %{$self->{"data"}});
+}
+sub delete {
+	my $self = shift;
+
+	return Tweetodon::DB->doDELETE("DELETE FROM ".$self->dbTable." WHERE ID = ?", $self->{data}->{ID});
 }
 1;

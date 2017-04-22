@@ -6,6 +6,7 @@ package Tweetodon::Feed;
 @Tweetodon::Feed::ISA = qw(Tweetodon::Base);
 use JSON;
 use Data::Dumper;
+use Tweetodon::Filter;
 
 sub dbTable :lvalue { "feeds"; }
 sub orderBy :lvalue { "url ASC"; }
@@ -27,5 +28,15 @@ sub get_by_user_instance {
 }
 
 # Object methods
+sub filters {
+	my $self = shift;
+	my $filters = Tweetodon::DB->doSELECT("SELECT * FROM filters WHERE feed_id = ? ORDER BY ID ASC", $self->{data}->{ID});
+
+	my @retVal;
+	foreach my $r (@$filters){
+		push @retVal, Tweetodon::Filter->new($r);
+	}
+	return @retVal;
+}
 
 1;

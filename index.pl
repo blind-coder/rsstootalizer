@@ -47,6 +47,7 @@ sub Error {{{
 sub populateAddToFORM {{{
 	my $key = shift;
 	my $value = shift;
+	return unless defined($value);
 	$key =~ s/\+/ /g;
 	$key = uri_unescape($key);
 	$key =~ s/\[\]$//;
@@ -119,7 +120,7 @@ my $object;
 # TODO: This is a very bad solution but not as bad as an uncontrolled eval...
 # The @main::modules array holds a list of all permissible values of the $main::FORM{"mode"} variable.
 # If the value is not in this array, the request is not processed and an error is displayed.
-my @modules = ("Login", "OAuthLogin", "Dashboard", "Callback", "JSON");
+my @modules = ("Login", "OAuthLogin", "Dashboard", "Callback", "JSON", "EditFeed");
 
 if (! grep {$_ eq $FORM{mode}} @modules) {
 	Error("Validation Error", "$FORM{mode} is not a valid module");

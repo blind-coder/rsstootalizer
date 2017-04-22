@@ -47,14 +47,15 @@ sub doINSERThash {
 	my $sth = $DBH->prepare($SQL);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doINSERThash prepare failed:\n'".$DBI::errstr."'\nSQL was: $SQL");
-		return 1;
+		return 0;
 	}
 	$sth->execute(@RESTARGS);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doINSERThash execute failed:'".$DBI::errstr."'\nSQL was: $SQL\nRestargs:".Dumper(@RESTARGS));
-		return 1;
+		return 0;
 	}
 	$sth->finish();
+	return 1;
 }
 sub doSELECT {
 	shift;
@@ -90,15 +91,15 @@ sub doDELETE {
 	my $sth = $DBH->prepare($SQL);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doDELETE prepare failed:\n'".$DBI::errstr."'\nSQL was: $SQL");
-		return 1;
+		return 0;
 	}
 	$sth->execute(@RESTARGS);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doDELETE execute failed:'".$DBI::errstr."'\nSQL was: $SQL\nRestargs:".Dumper(@RESTARGS));
-		return 1;
+		return 0;
 	}
 	$sth->finish();
-	return 0;
+	return 1;
 }
 sub doUPDATE {
 	my $this = shift;
@@ -108,15 +109,15 @@ sub doUPDATE {
 	my $sth = $DBH->prepare($SQL);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doUPDATE prepare failed:\n'".$DBI::errstr."'\nSQL was: $SQL");
-		return 1;
+		return 0;
 	}
 	$sth->execute(@RESTARGS);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doUPDATE execute failed:'".$DBI::errstr."'\nSQL was: $SQL\nRestargs:".Dumper(@RESTARGS));
-		return 1;
+		return 0;
 	}
 	$sth->finish();
-	return 0;
+	return 1;
 }
 sub doUPDATEhash {
 	my $this = shift;
@@ -136,14 +137,15 @@ sub doUPDATEhash {
 	my $sth = $DBH->prepare($SQL);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doUPDATEhash prepare failed:\n'".$DBI::errstr."'\nSQL was: $SQL");
-		return 1;
+		return 0;
 	}
 	$sth->execute(@RESTARGS);
 	if ($DBI::err) {
 		&main::Error("SQL Error", "doUPDATEhash execute failed:'".$DBI::errstr."'\nSQL was: $SQL\nRestargs:".Dumper(@RESTARGS));
-		return 1;
+		return 0;
 	}
 	$sth->finish();
+	return 1;
 }
 
 sub DBInit {

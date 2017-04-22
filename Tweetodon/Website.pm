@@ -54,7 +54,7 @@ sub render {
 		}
 	}
 	foreach ($self->{"set_cookie"}){
-		print "Set-Cookie: $_\n";
+		print "Set-Cookie: $_\n" if defined($_);
 	}
 	print "\n";
 
