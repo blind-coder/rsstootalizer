@@ -5,12 +5,14 @@ use HTML::Template;
 use Tweetodon::Website;
 use Tweetodon::App;
 use Tweetodon::Token;
-use Tweetodon::DB;
 
 package Tweetodon::Website::Callback;
 @Tweetodon::Website::Callback::ISA = qw(Tweetodon::Website);
 use Data::Dumper;
+use UUID::Tiny;
+use Digest::SHA qw(sha256_base64);
 use JSON;
+use Tweetodon::DB;
 
 sub requires_authentication {
 	return 0;
@@ -27,7 +29,6 @@ sub prerender {
 	$self->{"params"}->{"currentmode"} = "Callback";
 
 	my $instance = $main::FORM{instance};
-
 	my $app = Tweetodon::App->get_or_create_by_instance($instance);
 
 	open(DATA, "./process_code.bash '$app->{data}->{instance_client_id}' '$app->{data}->{instance_client_secret}' '$main::FORM{code}' '$main::config->{app}->{redirect_uris}' '$instance'|");
@@ -38,10 +39,29 @@ sub prerender {
 	}
 	close DATA;
 	$reply = decode_json($reply);
+	if (!defined($$reply{access_token})){
+		main::Error("Login error", "There was an error logging you in!");
+		return 0;
+	}
 
-	$self->{"set_cookie"} = ("token=".$reply->{access_token});
-	# Tweetodon::DB->doINSERT("INSERT INTO tokens (access_token, token_type, scope, created_at, username) VALUES (?, ?, ?, ?, ?)", $reply->{access_token}, $reply->{token_type}, $reply->{scope}, $reply->{created_at}, $main::FORM{Username});
-	#{"access_token":"9615e561d0cf3cb54799ecc381f10b059e781dac2b180e708dcd66683c1cdb81","token_type":"bearer","scope":"read write","created_at":1492718172}
+	my $token = $$reply{access_token};
+	open(DATA, "./verify_credentials.bash '$token' '$instance'|");
+	{
+		$/ = undef;
+		$reply = <DATA>
+	}
+	close DATA;
+	$reply = decode_json($reply);
+	if (!defined($$reply{acct})){
+		main::Error("Login error", "There was an error logging you in!");
+		return 0;
+	}
+
+	my $session_id = UUID::Tiny::create_UUID_as_string(UUID_V5, time().$$reply{acct});
+
+	Tweetodon::DB->doINSERT("INSERT INTO users (username, username_sha256, instance, instance_sha256, access_token, session_id) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE access_token=?, session_id=?", $$reply{acct}, sha256_base64($$reply{acct}), $instance, sha256_base64($instance), $token, $session_id, $token, $session_id);
+
+	$self->{"set_cookie"} = ("session_id=".$session_id);
 }
 
 1;

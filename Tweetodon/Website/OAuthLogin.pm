@@ -36,18 +36,9 @@ sub prerender {
 	$self->{params}->{instance} = $instance;
 	$self->{params}->{token_is_valid} = "false";
 
-	my $token = $main::FORM{token};
-
-	if (defined($token)){
-		#open(DATA, "./verify_credentials.bash '$token' '$instance'|");
-		#my $reply;
-		#{
-		#$/ = undef;
-		#$reply = <DATA>;
-		#}
-		#close DATA;
-		#$reply = decode_json($reply);
-		if (Tweetodon::User->authenticate()){
+	if (defined($main::FORM{session_id})){
+		my $user = Tweetodon::User->authenticate();
+		if ($user){
 			$self->{params}->{token_is_valid} = "true";
 		}
 		# {"error":"The access token is invalid"}
