@@ -34,7 +34,7 @@ sub prerender {
 	open(DATA, "./process_code.bash '$app->{data}->{instance_client_id}' '$app->{data}->{instance_client_secret}' '$main::FORM{code}' '$main::config->{app}->{redirect_uris}' '$instance'|");
 	my $reply;
 	{
-		$/ = undef;
+		local $/ = undef;
 		$reply = <DATA>;
 	}
 	close DATA;
@@ -47,7 +47,7 @@ sub prerender {
 	my $token = $$reply{access_token};
 	open(DATA, "./verify_credentials.bash '$token' '$instance'|");
 	{
-		$/ = undef;
+		local $/ = undef;
 		$reply = <DATA>
 	}
 	close DATA;

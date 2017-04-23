@@ -13,7 +13,7 @@ our $CURRENTUSER;
 our $config = "";
 open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
-	$/ = undef;
+	local $/ = undef;
 	$config = <CONFIG>;
 }
 close CONFIG;

@@ -26,7 +26,7 @@ sub authenticate {
 		open(DATA, "./verify_credentials.bash '$token' '$instance'|");
 		my $reply;
 		{
-			$/ = undef;
+			local $/ = undef;
 			$reply = <DATA>
 		}
 		close DATA;

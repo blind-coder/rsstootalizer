@@ -21,7 +21,7 @@ sub get_or_create_by_instance {
 		open(DATA, "./register_app.bash '$main::config->{app}->{client_name}' '$main::config->{app}->{redirect_uris}' '$main::config->{app}->{website}' '$instance'|");
 		my $reply = "";
 		{
-			$/ = undef;
+			local $/ = undef;
 			$reply = <DATA>;
 		}
 		close DATA;

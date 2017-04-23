@@ -11,7 +11,7 @@ use RSSTootalizer::Entry;
 our $config = "";
 open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
-	$/ = undef;
+	local $/ = undef;
 	$config = <CONFIG>;
 }
 close CONFIG;
@@ -67,7 +67,7 @@ FEED: foreach my $feed (@feeds){
 		open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' '$status'|");
 		my $reply = "";
 		{
-			$/ = undef;
+			local $/ = undef;
 			$reply = <DATA>;
 		}
 
