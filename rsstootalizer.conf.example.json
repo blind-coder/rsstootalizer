@@ -1,13 +1,13 @@
 {
 	"mysql": {
 		"host": "mysql.example.com",
-		"database": "tweetodon",
-		"user": "tweetodon",
+		"database": "rsstootalizer_production",
+		"user": "rsstootalizer",
 		"pass": "secret123"
 	},
 	"app": {
 		"client_name": "RSSTootalizer privatehosted",
-		"redirect_uris": "https://www.example.com/cgi-bin/tweetodon/callback.pl",
-		"website": "https://www.example.com/cgi-bin/tweetodon/index.pl?mode=About"
+		"redirect_uris": "https://www.example.com/cgi-bin/rsstootalizer/callback.pl",
+		"website": "https://www.example.com/cgi-bin/rsstootalizer/index.pl?mode=About"
 	}
 }
