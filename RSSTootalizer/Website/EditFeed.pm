@@ -30,6 +30,11 @@ sub fill_content {
 		return 1;
 	}
 
+	if ($main::FORM{action} and "x".$main::FORM{action} eq "xsaveformat"){
+		$feed->{data}->{format} = $main::FORM{format};
+		$feed->save();
+	}
+
 	if ($main::FORM{action} and "x".$main::FORM{action} eq "xsave"){
 		my @filters = $feed->filters();
 		FILTER: foreach my $filter (@filters){
