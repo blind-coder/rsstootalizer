@@ -1,0 +1,13 @@
+{
+	"mysql": {
+		"host": "mysql.anderdonau.de",
+		"database": "tweetodon_development",
+		"user": "tweetodon",
+		"pass": "oncdebscrgkok"
+	},
+	"app": {
+		"client_name": "RSSTootalizer official",
+		"redirect_uris": "https://www.benjamin-schieder.de/cgi-bin/tweetodon/callback.pl",
+		"website": "https://www.benjamin-schieder.de/cgi-bin/tweetodon/index.pl?mode=About"
+	}
+}

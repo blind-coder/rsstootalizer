@@ -1,4 +1,4 @@
-function TweetodonOnReady(){
+function RSSTootalizerOnReady(){
 	$("form#addFeed").hide();
 	$("a.deleteFeed").on("click", function(){
 		var btn = $(this);

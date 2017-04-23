@@ -6,7 +6,7 @@
 		"pass": "secret123"
 	},
 	"app": {
-		"client_name": "Tweetodon privatehosted",
+		"client_name": "RSSTootalizer privatehosted",
 		"redirect_uris": "https://www.example.com/cgi-bin/tweetodon/callback.pl",
 		"website": "https://www.example.com/cgi-bin/tweetodon/index.pl?mode=About"
 	}

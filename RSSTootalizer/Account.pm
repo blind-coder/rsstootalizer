@@ -1,11 +1,11 @@
 # vim: set foldmarker={,}:
 use strict;
-use Tweetodon::Base;
+use RSSTootalizer::Base;
 
-package Tweetodon::Account;
-@Tweetodon::Account::ISA = qw(Tweetodon::Base);
+package RSSTootalizer::Account;
+@RSSTootalizer::Account::ISA = qw(RSSTootalizer::Base);
 use JSON;
-use Tweetodon::Application;
+use RSSTootalizer::Application;
 use Data::Dumper;
 
 sub dbTable :lvalue { "accounts"; }
@@ -15,7 +15,7 @@ sub orderBy :lvalue { "username ASC"; }
 # Object methods
 sub application {
 	my $self = shift;
-	my $retVal = Tweetodon::Application->get_by("id", $self->{"data"}->{"application_id"});
+	my $retVal = RSSTootalizer::Application->get_by("id", $self->{"data"}->{"application_id"});
 	return $retVal;
 }
 

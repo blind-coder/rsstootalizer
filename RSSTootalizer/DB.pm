@@ -1,7 +1,7 @@
 # vim: set foldmarker={,}:
 use strict;
 
-package Tweetodon::DB;
+package RSSTootalizer::DB;
 use DBI;
 use Data::Dumper;
 use JSON;

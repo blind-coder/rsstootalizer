@@ -57,7 +57,7 @@ function jAlert(title, message){
 $(document).ready(function($){
 	$(".sidebar").find("#"+$("#currentmode").val()).addClass("active");
 	_GET = populateGet();
-	if (typeof TweetodonOnReady == "function"){
-		TweetodonOnReady();
+	if (typeof RSSTootalizerOnReady == "function"){
+		RSSTootalizerOnReady();
 	}
 });

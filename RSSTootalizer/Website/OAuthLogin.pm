@@ -2,13 +2,13 @@
 
 use strict;
 use HTML::Template;
-use Tweetodon::Website;
-use Tweetodon::App;
-use Tweetodon::Token;
-use Tweetodon::User;
+use RSSTootalizer::Website;
+use RSSTootalizer::App;
+use RSSTootalizer::Token;
+use RSSTootalizer::User;
 
-package Tweetodon::Website::OAuthLogin;
-@Tweetodon::Website::OAuthLogin::ISA = qw(Tweetodon::Website);
+package RSSTootalizer::Website::OAuthLogin;
+@RSSTootalizer::Website::OAuthLogin::ISA = qw(RSSTootalizer::Website);
 use Data::Dumper;
 use JSON;
 
@@ -30,14 +30,14 @@ sub prerender {
 	$self->{"set_cookie"} = ("instance=".$instance);
 	$self->{"params"}->{"currentmode"} = "OAuthLogin";
 
-	my $app = Tweetodon::App->get_or_create_by_instance($instance);
+	my $app = RSSTootalizer::App->get_or_create_by_instance($instance);
 	$self->{params}->{instance_redirect_uri} = $main::config->{app}->{redirect_uris};
 	$self->{params}->{instance_client_id} = $app->{data}->{instance_client_id};
 	$self->{params}->{instance} = $instance;
 	$self->{params}->{token_is_valid} = "false";
 
 	if (defined($main::FORM{session_id})){
-		my $user = Tweetodon::User->authenticate();
+		my $user = RSSTootalizer::User->authenticate();
 		if ($user){
 			$self->{params}->{token_is_valid} = "true";
 		}

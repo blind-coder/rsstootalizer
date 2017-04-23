@@ -2,10 +2,10 @@
 
 use strict;
 use Data::Dumper;
-use Tweetodon::Migration;
+use RSSTootalizer::Migration;
 
 our $config = "";
-open CONFIG, "tweetodon.conf.json" or die "Cannot open tweetodon.conf.json";
+open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
 	$/ = undef;
 	$config = <CONFIG>;
@@ -20,7 +20,7 @@ binmode STDOUT, ":utf8";
 my @migrations = glob ("migrations/*sql");
 foreach my $migration (@migrations){
 	print "Running migration $migration\n";
-	if (!Tweetodon::Migration->get_by("name", $migration)){
+	if (!RSSTootalizer::Migration->get_by("name", $migration)){
 		open (M, $migration);
 		my $sql;
 		{
@@ -28,9 +28,9 @@ foreach my $migration (@migrations){
 			$sql = <M>;
 		}
 		close M;
-		Tweetodon::DB->doINSERT($sql);
+		RSSTootalizer::DB->doINSERT($sql);
 		my %migdata;
 		$migdata{name} = $migration;
-		Tweetodon::Migration->create(%migdata);
+		RSSTootalizer::Migration->create(%migdata);
 	}
 }

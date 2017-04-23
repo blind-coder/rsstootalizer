@@ -4,12 +4,12 @@ use strict;
 use Data::Dumper;
 use URI::Escape;
 use JSON;
-use Tweetodon::Feed;
-use Tweetodon::User;
-use Tweetodon::Entry;
+use RSSTootalizer::Feed;
+use RSSTootalizer::User;
+use RSSTootalizer::Entry;
 
 our $config = "";
-open CONFIG, "tweetodon.conf.json" or die "Cannot open tweetodon.conf.json";
+open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
 	$/ = undef;
 	$config = <CONFIG>;
@@ -33,7 +33,7 @@ sub Error {{{
 binmode STDERR, ":utf8";
 binmode STDOUT, ":utf8";
 
-my @feeds = Tweetodon::Feed->all();
+my @feeds = RSSTootalizer::Feed->all();
 FEED: foreach my $feed (@feeds){
 	next FEED unless $feed->{data}->{enabled};
 	my $entries = $feed->fetch_entries();
@@ -74,6 +74,6 @@ FEED: foreach my $feed (@feeds){
 		my %ne;
 		$ne{feed_id} = $feed->{data}->{ID};
 		$ne{entry_link} = $entry{link};
-		Tweetodon::Entry->create(%ne);
+		RSSTootalizer::Entry->create(%ne);
 	}
 }

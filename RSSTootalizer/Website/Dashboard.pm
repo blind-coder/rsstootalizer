@@ -3,13 +3,13 @@
 
 use strict;
 use HTML::Template;
-use Tweetodon::DB;
-use Tweetodon::Feed;
-use Tweetodon::Website;
+use RSSTootalizer::DB;
+use RSSTootalizer::Feed;
+use RSSTootalizer::Website;
 
-package Tweetodon::Website::Dashboard;
+package RSSTootalizer::Website::Dashboard;
 use Data::Dumper;
-@Tweetodon::Website::Dashboard::ISA = qw(Tweetodon::Website);
+@RSSTootalizer::Website::Dashboard::ISA = qw(RSSTootalizer::Website);
 
 sub requires_authentication {
 	return 1;
@@ -25,10 +25,10 @@ sub fill_content {
 		$nf{username} = $main::CURRENTUSER->{data}->{acct};
 		$nf{instance} = $main::FORM{instance};
 		$nf{enabled} = "n";
-		my $feed = Tweetodon::Feed->create_and_fetch(%nf);
+		my $feed = RSSTootalizer::Feed->create_and_fetch(%nf);
 	}
 
-	my @feeds = Tweetodon::Feed->get_by_user_instance($main::CURRENTUSER->{data}->{acct}, $main::FORM{instance});
+	my @feeds = RSSTootalizer::Feed->get_by_user_instance($main::CURRENTUSER->{data}->{acct}, $main::FORM{instance});
 	my @param_feeds;
 	my $count = 0;
 	FEED: foreach my $feed (@feeds){

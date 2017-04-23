@@ -4,7 +4,7 @@
 use strict;
 use HTML::Template;
 
-package Tweetodon::Website;
+package RSSTootalizer::Website;
 use Data::Dumper;
 
 sub requires_authentication {
