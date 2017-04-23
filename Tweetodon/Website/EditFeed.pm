@@ -106,6 +106,7 @@ sub fill_content {
 
 	$output->param("url", $feed->{data}->{url});
 	$output->param("feed_id", $feed->{data}->{ID});
+	$output->param("format", $feed->{data}->{format});
 	return 1;
 }
 sub prerender {

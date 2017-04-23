@@ -54,12 +54,29 @@ sub filters {
 	}
 	return @retVal;
 }
-
 sub fetch_entries {
 	my $self = shift;
 
 	$XML::Feed::MULTIPLE_ENCLOSURES = 1;
 	return XML::Feed->parse(URI->new($self->{data}->{url}));
+}
+sub entry_by {
+	my $self = shift;
+	my $key = shift;
+	my $value = shift;
+
+	my $sth = Tweetodon::DB->doSELECT("SELECT * FROM entries WHERE feed_id = ? AND $key = ?", $self->{data}->{ID}, $value);
+	my @retVal;
+	foreach my $r (@$sth){
+		push @retVal, Tweetodon::Entry->new($r);
+	}
+	return @retVal;
+}
+sub user {
+	my $self = shift;
+	my $sth = Tweetodon::DB->doSELECT("SELECT * FROM users WHERE username = ? and instance = ?", $self->{data}->{username}, $self->{data}->{instance});
+	$sth = $$sth[0];
+	return Tweetodon::User->new($sth);
 }
 
 1;

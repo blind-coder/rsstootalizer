@@ -150,18 +150,10 @@ sub doUPDATEhash {
 
 sub DBInit {
 	unless (defined($DBH)){
-		my $config = "";
-		open CONFIG, "tweetodon.conf.json" or die "Cannot open ttiam.conf.json";
-		{
-			$/ = undef;
-			$config = <CONFIG>;
-		}
-		close CONFIG;
-		$config = decode_json($config);
-		my $DSN = "DBI:mysql:database=".$config->{"mysql"}->{"database"}.
-			":host=".$config->{"mysql"}->{"host"}.
+		my $DSN = "DBI:mysql:database=".$main::config->{"mysql"}->{"database"}.
+			":host=".$main::config->{"mysql"}->{"host"}.
 			";mysql_emulated_prepare=1";
-		$DBH = DBI->connect($DSN, $config->{"mysql"}->{"user"}, $config->{"mysql"}->{"pass"});
+		$DBH = DBI->connect($DSN, $main::config->{"mysql"}->{"user"}, $main::config->{"mysql"}->{"pass"});
 		unless ($DBH){
 			main::Error("SQL Error", "Database Error", "Unable to connect to database '$DSN'!\nError: $DBI::errstr\n");
 		}
