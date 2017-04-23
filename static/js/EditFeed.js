@@ -50,7 +50,7 @@ function appendFilter(id, field, regex, type, match){
 		t.find("#match_"+id).val(match);
 	}
 }
-function TweetodonOnReady(){
+function RSSTootalizerOnReady(){
 	$("#rawentries").hide();
 	$("a#togglerawentries").on("click", function(){
 		$("#rawentries").toggle();

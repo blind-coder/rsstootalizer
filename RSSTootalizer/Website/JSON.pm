@@ -2,13 +2,13 @@
 # vim: set foldmarker={,}:
 
 use strict;
-use Tweetodon::DB;
-use Tweetodon::Account;
-use Tweetodon::Identity;
-use Tweetodon::Website;
+use RSSTootalizer::DB;
+use RSSTootalizer::Account;
+use RSSTootalizer::Identity;
+use RSSTootalizer::Website;
 
-package Tweetodon::Website::JSON;
-@Tweetodon::Website::JSON::ISA = qw(Website);
+package RSSTootalizer::Website::JSON;
+@RSSTootalizer::Website::JSON::ISA = qw(Website);
 use Data::Dumper;
 use JSON;
 use MIME::Base64 qw(encode_base64);
@@ -61,7 +61,7 @@ sub identity_accounts {
 	$self->{"params"}->{"msg"} = "";
 
 	my @accounts;
-	my $i = Tweetodon::Identity->get_by("id", $main::FORM{"id"});
+	my $i = RSSTootalizer::Identity->get_by("id", $main::FORM{"id"});
 	foreach my $a ($i->accounts()){
 		my %account;
 		foreach my $k (keys %{$a->{"data"}}){
@@ -84,7 +84,7 @@ sub applications_all {
 	$self->{"params"}->{"msg"} = "";
 
 	my @applications;
-	foreach my $a (Tweetodon::Application->all()){
+	foreach my $a (RSSTootalizer::Application->all()){
 		my %application;
 		foreach my $k (keys %{$a->{"data"}}){
 			$application{$k} = $a->{"data"}->{$k};
@@ -105,7 +105,7 @@ sub application_by_id {
 	$self->{"params"}->{"status"} = "OK";
 	$self->{"params"}->{"msg"} = "";
 
-	my $a = Tweetodon::Application->get_by("id", $main::FORM{"id"});
+	my $a = RSSTootalizer::Application->get_by("id", $main::FORM{"id"});
 	foreach my $k (keys %{$a->{"data"}}){
 		$self->{"params"}->{$k} = $a->{"data"}->{$k};
 	}
@@ -128,9 +128,9 @@ sub application_save {
 		# TODO
 		# my %data;
 		# $data{"login"} = $main::FORM{"login"};
-		# $u = Tweetodon::Application->create(%data);
+		# $u = RSSTootalizer::Application->create(%data);
 	} else {
-		$a = Tweetodon::Application->get_by("id", $main::FORM{"id"});
+		$a = RSSTootalizer::Application->get_by("id", $main::FORM{"id"});
 	}
 
 	foreach my $k (keys %{$a->{"data"}}){
@@ -151,7 +151,7 @@ sub application_import_accounts {
 	$self->{"params"}->{"status"} = "OK";
 	$self->{"params"}->{"msg"} = "";
 
-	my $a = Tweetodon::Application->get_by("id", $main::FORM{"id"});
+	my $a = RSSTootalizer::Application->get_by("id", $main::FORM{"id"});
 	my @accounts;
 	foreach my $acc ($a->get_handler()->import_accounts_from_application()){
 		my %account;
@@ -175,7 +175,7 @@ sub users_all {
 
 	my @users;
 	my $count = 0;
-	foreach my $u (Tweetodon::User->all()){
+	foreach my $u (RSSTootalizer::User->all()){
 		my %user;
 		foreach my $k (keys %{$u->{"data"}}){
 			next if $k eq "password";
@@ -198,7 +198,7 @@ sub user_by_id {
 	$self->{"params"}->{"status"} = "OK";
 	$self->{"params"}->{"msg"} = "";
 
-	my $u = Tweetodon::User->get_by("id", $main::FORM{"id"});
+	my $u = RSSTootalizer::User->get_by("id", $main::FORM{"id"});
 	foreach my $k (keys %{$u->{"data"}}){
 		next if $k eq "password";
 		$self->{"params"}->{$k} = $u->{"data"}->{$k};
@@ -219,9 +219,9 @@ sub user_save {
 	if ($main::FORM{"id"} eq "new"){
 		my %data;
 		$data{"login"} = $main::FORM{"login"};
-		$u = Tweetodon::User->create(%data);
+		$u = RSSTootalizer::User->create(%data);
 	} else {
-		$u = Tweetodon::User->get_by("id", $main::FORM{"id"});
+		$u = RSSTootalizer::User->get_by("id", $main::FORM{"id"});
 	}
 	delete $main::FORM{"id"};
 	foreach my $k (keys %{$u->{"data"}}){
@@ -243,7 +243,7 @@ sub user_identities {
 	$self->{"params"}->{"msg"} = "";
 
 	my @identities;
-	my $u = Tweetodon::User->get_by("id", $main::FORM{"id"});
+	my $u = RSSTootalizer::User->get_by("id", $main::FORM{"id"});
 	foreach my $id ($u->identities()){
 		my %identity;
 		foreach my $k (keys %{$id->{"data"}}){
@@ -265,7 +265,7 @@ sub identities_save {
 	$self->{"params"}->{"status"} = "OK";
 	$self->{"params"}->{"msg"} = "";
 
-	my $user = Tweetodon::User->get_by("id", $main::FORM{"id"});
+	my $user = RSSTootalizer::User->get_by("id", $main::FORM{"id"});
 	foreach my $id ($user->identities()){
 		if (exists($main::FORM{$id->{"data"}->{"id"}})){
 			$id->{"data"}->{"description"} = $main::FORM{$id->{"data"}->{"id"}};
@@ -276,7 +276,7 @@ sub identities_save {
 		my %data;
 		$data{user_id} = $user->{"data"}->{"id"};
 		$data{description} = $main::FORM{"new"};
-		Tweetodon::Identity->create(%data);
+		RSSTootalizer::Identity->create(%data);
 	}
 }
 

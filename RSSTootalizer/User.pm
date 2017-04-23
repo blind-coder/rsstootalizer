@@ -1,11 +1,11 @@
 # vim: set foldmarker={,}:
 use strict;
-use Tweetodon::Base;
+use RSSTootalizer::Base;
 
-package Tweetodon::User;
-@Tweetodon::User::ISA = qw(Tweetodon::Base);
+package RSSTootalizer::User;
+@RSSTootalizer::User::ISA = qw(RSSTootalizer::Base);
 use JSON;
-use Tweetodon::Token;
+use RSSTootalizer::Token;
 use Data::Dumper;
 
 sub dbTable :lvalue { "users"; }

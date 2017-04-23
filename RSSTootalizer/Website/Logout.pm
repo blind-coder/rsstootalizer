@@ -2,10 +2,10 @@
 
 use strict;
 use HTML::Template;
-use Tweetodon::Website;
+use RSSTootalizer::Website;
 
-package Tweetodon::Website::Login;
-@Tweetodon::Website::Login::ISA = qw(Tweetodon::Website);
+package RSSTootalizer::Website::Logout;
+@RSSTootalizer::Website::Logout::ISA = qw(RSSTootalizer::Website);
 
 sub requires_authentication {
 	return 0;
@@ -20,6 +20,8 @@ sub prerender {
 	$self->{"template"} = "Login";
 	$self->{"content_type"} = "html";
 	$self->{"params"}->{"currentmode"} = "Login";
+
+	$self->{"set_cookie"} = ("session_id=");
 }
 
 1;

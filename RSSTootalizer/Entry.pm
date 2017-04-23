@@ -1,9 +1,9 @@
 # vim: set foldmarker={,}:
 use strict;
-use Tweetodon::Base;
+use RSSTootalizer::Base;
 
-package Tweetodon::Entry;
-@Tweetodon::Entry::ISA = qw(Tweetodon::Base);
+package RSSTootalizer::Entry;
+@RSSTootalizer::Entry::ISA = qw(RSSTootalizer::Base);
 use JSON;
 use Data::Dumper;
 

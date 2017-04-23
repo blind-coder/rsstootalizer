@@ -23,7 +23,7 @@ CREATE TABLE `feeds` (
   `username` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
   `instance` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
   `url` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `format` varchar(500) NOT NULL DEFAULT '{Title} - {Link} by {Author} -- posted at {Issued} with #Tweetodon',
+  `format` varchar(500) NOT NULL DEFAULT '{Title} - {Link} by {Author} -- posted at {Issued} with #RSSTootalizer',
   `enabled` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

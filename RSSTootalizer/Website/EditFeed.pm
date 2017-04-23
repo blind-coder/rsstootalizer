@@ -3,14 +3,14 @@
 
 use strict;
 use HTML::Template;
-use Tweetodon::DB;
-use Tweetodon::Feed;
-use Tweetodon::Filter;
-use Tweetodon::Website;
+use RSSTootalizer::DB;
+use RSSTootalizer::Feed;
+use RSSTootalizer::Filter;
+use RSSTootalizer::Website;
 
-package Tweetodon::Website::EditFeed;
+package RSSTootalizer::Website::EditFeed;
 use Data::Dumper;
-@Tweetodon::Website::EditFeed::ISA = qw(Tweetodon::Website);
+@RSSTootalizer::Website::EditFeed::ISA = qw(RSSTootalizer::Website);
 
 sub requires_authentication {
 	return 1;
@@ -19,7 +19,7 @@ sub requires_authentication {
 sub fill_content {
 	my $class = shift;
 	my $output = shift;
-	my $feed = Tweetodon::Feed->get_by("ID", $main::FORM{id});
+	my $feed = RSSTootalizer::Feed->get_by("ID", $main::FORM{id});
 	unless ($feed){
 		main::Error("Unknown feed", "This feed id is not known");
 		return 1;
@@ -54,7 +54,7 @@ sub fill_content {
 			$newfilter{regex} = $main::FORM{"regex_new".$id};
 			$newfilter{type} = $main::FORM{"type_new".$id};
 			$newfilter{match} = $main::FORM{"match_new".$id};
-			my $nf = Tweetodon::Filter->create(%newfilter);
+			my $nf = RSSTootalizer::Filter->create(%newfilter);
 		}
 	}
 

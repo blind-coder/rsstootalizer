@@ -5,13 +5,13 @@ use Data::Dumper;
 use HTML::Template;
 use URI::Escape;
 use JSON;
-use Tweetodon::User;
+use RSSTootalizer::User;
 
 our %FORM;
 our $CURRENTUSER;
 
 our $config = "";
-open CONFIG, "tweetodon.conf.json" or die "Cannot open tweetodon.conf.json";
+open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
 	$/ = undef;
 	$config = <CONFIG>;
@@ -98,7 +98,7 @@ sub populateCookieFields {{{
   }
 }}}
 sub CheckCredentials {
-	$CURRENTUSER = Tweetodon::User->authenticate();
+	$CURRENTUSER = RSSTootalizer::User->authenticate();
 	if ($CURRENTUSER){
 		return 1;
 	}
@@ -126,12 +126,12 @@ if (! grep {$_ eq $FORM{mode}} @modules) {
 	Error("Validation Error", "$FORM{mode} is not a valid module");
 }
 
-my $x = "Tweetodon::Website::$FORM{mode}";
+my $x = "RSSTootalizer::Website::$FORM{mode}";
 eval "use $x; 1" || Error("Parse Error", "Could not include $x: $@");
 eval { $object=$x->new(); } || Error("Functional Error", "This function is not implemented yet ('".$FORM{mode}."').");
 if ($object->requires_authentication()) { # Mode requires user to be logged in?
 	unless (CheckCredentials()) {
-		$x = "Tweetodon::Website::Login";
+		$x = "RSSTootalizer::Website::Login";
 		eval "use $x; 1" || Error("Parse Error", "Could not include $x: $@");
 		eval { $object=$x->new(); } || Error("Functional Error", "This function is not implemented yet ('".$FORM{mode}."').");
 	}
