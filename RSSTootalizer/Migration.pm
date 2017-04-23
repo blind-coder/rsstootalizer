@@ -7,8 +7,8 @@ package RSSTootalizer::Migration;
 use JSON;
 use Data::Dumper;
 
-sub dbTable :lvalue { "tokens"; }
-sub orderBy :lvalue { "username ASC"; }
+sub dbTable :lvalue { "migrations"; }
+sub orderBy :lvalue { "created_at ASC"; }
 
 # Class functions
 

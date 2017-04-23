@@ -1,14 +1,9 @@
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
-SET time_zone = "+00:00";
-
 CREATE TABLE `apps` (
   `ID` bigint(20) UNSIGNED NOT NULL,
-  `instance` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `instance_id` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `instance_client_id` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `instance_client_secret` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL
+  `instance` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `instance_id` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `instance_client_id` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `instance_client_secret` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 CREATE TABLE `entries` (
@@ -20,9 +15,9 @@ CREATE TABLE `entries` (
 
 CREATE TABLE `feeds` (
   `ID` bigint(20) UNSIGNED NOT NULL,
-  `username` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `instance` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
-  `url` text CHARACTER SET utf8mb4 COLLATE utf8_unicode_ci NOT NULL,
+  `username` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `instance` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `url` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
   `format` varchar(500) NOT NULL DEFAULT '{Title} - {Link} by {Author} -- posted at {Issued} with #RSSTootalizer',
   `enabled` enum('0','1') NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -93,4 +88,3 @@ ALTER TABLE `entries`
 
 ALTER TABLE `filters`
   ADD CONSTRAINT `filters_ibfk_1` FOREIGN KEY (`feed_id`) REFERENCES `feeds` (`ID`) ON DELETE CASCADE ON UPDATE CASCADE;
-COMMIT;

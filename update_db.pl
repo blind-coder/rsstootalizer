@@ -3,11 +3,18 @@
 use strict;
 use Data::Dumper;
 use RSSTootalizer::Migration;
+use JSON;
+
+sub Error {
+	my $headline = shift;
+	my $msg = shift;
+	print "$headline: $msg\n";
+}
 
 our $config = "";
 open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
 {
-	$/ = undef;
+	local $/ = undef;
 	$config = <CONFIG>;
 }
 close CONFIG;
@@ -19,18 +26,26 @@ binmode STDOUT, ":utf8";
 
 my @migrations = glob ("migrations/*sql");
 foreach my $migration (@migrations){
-	print "Running migration $migration\n";
-	if (!RSSTootalizer::Migration->get_by("name", $migration)){
-		open (M, $migration);
-		my $sql;
-		{
-			$/ = undef;
-			$sql = <M>;
+	my $sth = RSSTootalizer::DB->doSELECT("SELECT * FROM migrations WHERE name = ?", $migration);
+	if (!$sth){
+		print "Running migration $migration\n";
+		open (M, "<", $migration);
+		my $sql = "";
+		while (<M>){
+			chomp;
+			print "Read: $_\n";
+			$sql .= $_;
+			if ($sql =~ /;/){
+				print "Running: $sql\n";
+				RSSTootalizer::DB->doDELETE($sql); # Using doDELETE for lack of error handling...
+				$sql = "";
+			}
 		}
 		close M;
-		RSSTootalizer::DB->doINSERT($sql);
 		my %migdata;
 		$migdata{name} = $migration;
 		RSSTootalizer::Migration->create(%migdata);
+	} else {
+		print "Migration $migration already done\n";
 	}
 }
