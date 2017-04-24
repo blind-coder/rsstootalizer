@@ -85,12 +85,6 @@ sub fill_content {
 				} else {
 					$entry{class} = "red";
 				}
-			} else {
-				if ($filter->{data}->{type} eq "white"){
-					$entry{class} = "red";
-				} else {
-					$entry{class} = "green";
-				}
 			}
 		}
 		push @param_entries, \%entry;

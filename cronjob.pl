@@ -61,12 +61,6 @@ FEED: foreach my $feed (@feeds){
 				} else {
 					$do_post = 0;
 				}
-			} else {
-				if ($filter->{data}->{type} eq "white"){
-					$do_post = 0;
-				} else {
-					$do_post = 1;
-				}
 			}
 		}
 
