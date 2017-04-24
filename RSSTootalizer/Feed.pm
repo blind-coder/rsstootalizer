@@ -12,7 +12,7 @@ use XML::Feed;
 use URI;
 
 sub dbTable :lvalue { "feeds"; }
-sub orderBy :lvalue { "url ASC"; }
+sub orderBy :lvalue { "ID ASC"; }
 
 # Class functions
 sub get_by_user_instance {
