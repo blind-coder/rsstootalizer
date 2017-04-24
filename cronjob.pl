@@ -5,6 +5,7 @@ use Data::Dumper;
 use URI::Escape;
 use JSON;
 use RSSTootalizer::Feed;
+use RSSTootalizer::Filter;
 use RSSTootalizer::User;
 use RSSTootalizer::Entry;
 
@@ -51,24 +52,44 @@ FEED: foreach my $feed (@feeds){
 		$entry{id} = $entry->id();
 		$entry{tags} = join(", ", $entry->tags());
 
-		my $user = $feed->user();
-		my $status = $feed->{data}->{format};
-		$status =~ s/{ID}/$entry{id}/g;
-		$status =~ s/{Title}/$entry{title}/g;
-		$status =~ s/{Link}/$entry{link}/g;
-		$status =~ s/{Content}/$entry{content}/g;
-		$status =~ s/{Author}/$entry{author}/g;
-		$status =~ s/{Issued}/$entry{issued}/g;
-		$status =~ s/{Modified}/$entry{modified}/g;
-		$status =~ s/{Tags}/$entry{tags}/g;
+		my $do_post = 0;
+		my @filters = $feed->filters();
+		foreach my $filter (@filters){
+			if ($filter->apply($entry)){
+				if ($filter->{data}->{type} eq "white"){
+					$do_post = 1;
+				} else {
+					$do_post = 0;
+				}
+			} else {
+				if ($filter->{data}->{type} eq "white"){
+					$do_post = 0;
+				} else {
+					$do_post = 1;
+				}
+			}
+		}
 
-		$status =~ s/'/"/g; # TODO
+		if ($do_post){
+			my $user = $feed->user();
+			my $status = $feed->{data}->{format};
+			$status =~ s/{ID}/$entry{id}/g;
+			$status =~ s/{Title}/$entry{title}/g;
+			$status =~ s/{Link}/$entry{link}/g;
+			$status =~ s/{Content}/$entry{content}/g;
+			$status =~ s/{Author}/$entry{author}/g;
+			$status =~ s/{Issued}/$entry{issued}/g;
+			$status =~ s/{Modified}/$entry{modified}/g;
+			$status =~ s/{Tags}/$entry{tags}/g;
 
-		open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' '$status'|");
-		my $reply = "";
-		{
-			local $/ = undef;
-			$reply = <DATA>;
+			$status =~ s/'/"/g; # TODO
+
+			open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' '$status'|");
+			my $reply = "";
+			{
+				local $/ = undef;
+				$reply = <DATA>;
+			}
 		}
 
 		my %ne;
