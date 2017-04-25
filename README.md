@@ -23,6 +23,8 @@ Example configuration for Apache:
 ```
 
 Finally, copy the file ``rsstootalizer.conf.example.json`` to ``rsstootalizer.conf.json`` and adapt to your setup and run ``./update_db.pl`` to create your tables.
+When that is working, make sure to regularly call ``cronjob.pl`` to actually pull and process the feeds.
+
 Now you can log in to your very own instance of RSSTootalizer!
 
 ## Usage
