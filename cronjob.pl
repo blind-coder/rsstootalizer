@@ -8,6 +8,7 @@ use RSSTootalizer::Feed;
 use RSSTootalizer::Filter;
 use RSSTootalizer::User;
 use RSSTootalizer::Entry;
+use RSSTootalizer::DB;
 
 our $config = "";
 open CONFIG, "rsstootalizer.conf.json" or die "Cannot open rsstootalizer.conf.json";
@@ -92,3 +93,5 @@ FEED: foreach my $feed (@feeds){
 		RSSTootalizer::Entry->create(%ne);
 	}
 }
+
+RSSTootalizer::DB->doUPDATE("UPDATE `users` SET session_id = 'invalid' WHERE TIME_TO_SEC(NOW()) - TIME_TO_SEC(`valid_from`) > 60*60*4;"); # invalidate old sessions
