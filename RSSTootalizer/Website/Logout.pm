@@ -24,7 +24,6 @@ sub prerender {
 	$self->{"set_cookie"} = ("session_id=");
 	my $user = RSSTootalizer::User->authenticate();
 	if ($user){
-		# RSSTootalizer::DB->doUPDATE("UPDATE users SET session_id = 'invalid' WHERE ID = ?", $user->{data}->{ID});
 		$user->{data}->{session_id} = "invalid";
 		$user->save();
 	}
