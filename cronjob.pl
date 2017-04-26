@@ -77,9 +77,14 @@ FEED: foreach my $feed (@feeds){
 			$status =~ s/{Modified}/$entry{modified}/g;
 			$status =~ s/{Tags}/$entry{tags}/g;
 
-			$status =~ s/'/'\\''/g;
+			my %data;
+			if (length($status) > 500){
+				$status =~ s/^(.{497}).*$/\1.../g;
+			}
+			$data{status} = $status;
+			$ENV{status} = encode_json({%data});
 
-			open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' '$status'|");
+			open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' |");
 			my $reply = "";
 			{
 				local $/ = undef;
