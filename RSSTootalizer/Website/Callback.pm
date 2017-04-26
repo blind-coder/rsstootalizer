@@ -61,7 +61,7 @@ sub prerender {
 
 	RSSTootalizer::DB->doINSERT("INSERT INTO users (username, username_sha256, instance, instance_sha256, access_token, session_id) VALUES (?, ?, ?, ?, ?, ?) ON DUPLICATE KEY UPDATE access_token=?, session_id=?", $$reply{acct}, sha256_base64($$reply{acct}), $instance, sha256_base64($instance), $token, $session_id, $token, $session_id);
 
-	$self->{"set_cookie"} = ("session_id=".$session_id);
+	$self->{"set_cookie"} = ("session_id=".$session_id."; SameSite=strict");
 }
 
 1;
