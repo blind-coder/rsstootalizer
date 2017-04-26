@@ -77,7 +77,7 @@ FEED: foreach my $feed (@feeds){
 			$status =~ s/{Modified}/$entry{modified}/g;
 			$status =~ s/{Tags}/$entry{tags}/g;
 
-			$status =~ s/'/"/g; # TODO
+			$status =~ s/'/'\\''/g;
 
 			open(DATA, "./post_status.bash '$user->{data}->{access_token}' '$user->{data}->{instance}' '$status'|");
 			my $reply = "";
