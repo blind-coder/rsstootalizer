@@ -19,6 +19,7 @@ sub authenticate {
 	return 0 unless defined($session_id);
 	my $user = $class->get_by("session_id", $session_id);
 	return 0 unless $user;
+	return 0 if $user->{data}->{session_id} eq "invalid";
 
 	my $instance = $user->{data}->{instance};
 	my $token = $user->{data}->{access_token};
