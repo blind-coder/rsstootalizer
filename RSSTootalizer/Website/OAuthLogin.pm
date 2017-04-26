@@ -40,6 +40,7 @@ sub prerender {
 		my $user = RSSTootalizer::User->authenticate();
 		if ($user){
 			$self->{params}->{token_is_valid} = "true";
+			$self->{set_cookie} = ("last_instance=$instance; Max-Age=1209600");
 		}
 		# {"error":"The access token is invalid"}
 	}

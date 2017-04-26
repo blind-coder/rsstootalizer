@@ -20,6 +20,8 @@ sub prerender {
 	$self->{"template"} = "Login";
 	$self->{"content_type"} = "html";
 	$self->{"params"}->{"currentmode"} = "Login";
+
+	$self->{"params"}->{"instance"} = $main::FORM{"last_instance"};
 }
 
 1;
