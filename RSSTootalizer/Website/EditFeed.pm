@@ -25,7 +25,7 @@ sub fill_content {
 		return 1;
 	}
 
-	if ($feed->{data}->{username} ne $main::CURRENTUSER->{data}->{acct} or $feed->{data}->{instance} ne $main::FORM{instance}){
+	if ($feed->{data}->{username} ne $main::CURRENTUSER->{mastodon}->{acct} or $feed->{data}->{instance} ne $main::FORM{instance}){
 		main::Error("Unknown feed", "This feed id is not known");
 		return 1;
 	}

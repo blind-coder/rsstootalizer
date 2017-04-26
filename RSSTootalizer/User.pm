@@ -38,7 +38,8 @@ sub authenticate {
 		}
 		$reply->{token} = $token;
 		$reply->{instance} = $instance;
-		return $class->new($reply);
+		$user->{mastodon} = $reply;
+		return $user;
 	}
 	return 0;
 }

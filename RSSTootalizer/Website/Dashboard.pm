@@ -22,13 +22,13 @@ sub fill_content {
 	if ($main::FORM{inputURL}){
 		my %nf;
 		$nf{url} = $main::FORM{inputURL};
-		$nf{username} = $main::CURRENTUSER->{data}->{acct};
+		$nf{username} = $main::CURRENTUSER->{mastodon}->{acct};
 		$nf{instance} = $main::FORM{instance};
 		$nf{enabled} = "n";
 		my $feed = RSSTootalizer::Feed->create_and_fetch(%nf);
 	}
 
-	my @feeds = RSSTootalizer::Feed->get_by_user_instance($main::CURRENTUSER->{data}->{acct}, $main::FORM{instance});
+	my @feeds = RSSTootalizer::Feed->get_by_user_instance($main::CURRENTUSER->{mastodon}->{acct}, $main::FORM{instance});
 	my @param_feeds;
 	my $count = 0;
 	FEED: foreach my $feed (@feeds){
@@ -61,8 +61,8 @@ sub prerender {
 	$self->{"content_type"} = "html";
 	$self->{"params"}->{"currentmode"} = "Dashboard";
 
-	foreach my $key (keys %{$main::CURRENTUSER->{data}}){
-		$self->{"params"}->{"acct_$key"} = $main::CURRENTUSER->{data}->{$key};
+	foreach my $key (keys %{$main::CURRENTUSER->{mastodon}}){
+		$self->{"params"}->{"acct_$key"} = $main::CURRENTUSER->{mastodon}->{$key};
 	}
 }
 
