@@ -79,7 +79,7 @@ FEED: foreach my $feed (@feeds){
 
 			my %data;
 			if (length($status) > 500){
-				$status =~ s/^(.{497}).*$/\1.../g;
+				$status =~ s/^(.{497}).*$/$1.../g;
 			}
 			$data{status} = $status;
 			$ENV{status} = encode_json({%data});
