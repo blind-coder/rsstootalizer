@@ -39,6 +39,7 @@ my @feeds = RSSTootalizer::Feed->all();
 FEED: foreach my $feed (@feeds){
 	next FEED unless $feed->{data}->{enabled};
 	my $entries = $feed->fetch_entries();
+	next FEED unless $entries;
 	ENTRY: foreach my $entry ($entries->items){
 		my @seen_entries = $feed->entry_by("entry_link", $entry->link());
 		next ENTRY if ((scalar @seen_entries) > 0);
