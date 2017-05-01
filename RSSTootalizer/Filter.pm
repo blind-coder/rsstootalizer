@@ -20,6 +20,7 @@ sub apply {
 
 	my $match = 1;
 	my $arg = $self->{data}->{field};
+	return 0 unless defined($arg);
 	if ($arg eq "content"){
 		$arg = $entry->content()->body;
 	} else {
