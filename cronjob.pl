@@ -37,6 +37,7 @@ binmode STDOUT, ":utf8";
 
 my @feeds = RSSTootalizer::Feed->all();
 FEED: foreach my $feed (@feeds){
+	next FEED unless $feed;
 	next FEED unless $feed->{data}->{enabled};
 	my $entries = $feed->fetch_entries();
 	next FEED unless $entries;
@@ -70,7 +71,11 @@ FEED: foreach my $feed (@feeds){
 			my $user = $feed->user();
 			my $status = $feed->{data}->{format};
 			$status =~ s/{ID}/$entry{id}/g;
-			$status =~ s/{Title}/$entry{title}/g;
+			if (defined($entry{title})){
+				$status =~ s/{Title}/$entry{title}/g;
+			} else {
+				$status =~ s/{Title}/No Title/g;
+			}
 			$status =~ s/{Link}/$entry{link}/g;
 			$status =~ s/{Content}/$entry{content}/g;
 			$status =~ s/{Author}/$entry{author}/g;
