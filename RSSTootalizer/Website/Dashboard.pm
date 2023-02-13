@@ -24,7 +24,7 @@ sub fill_content {
 		$nf{url} = $main::FORM{inputURL};
 		$nf{username} = $main::CURRENTUSER->{mastodon}->{acct};
 		$nf{instance} = $main::FORM{instance};
-		$nf{enabled} = "n";
+		$nf{enabled} = "0";
 		my $feed = RSSTootalizer::Feed->create_and_fetch(%nf);
 	}
 
