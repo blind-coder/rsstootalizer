@@ -36,8 +36,3 @@ Click on "Edit" to edit the feed settings. You will need to add at least one "Wh
 At the top of the Edit page, you see a button "Show raw entries". All current entries (at the time the page loaded) will be shown and color-coded. If they are red, they would not get posted with the current filterset, if they are green, they would get posted. Use this functionality to validate your filters. These codes are not live updated, you need to press "Save filters" in between changes.
 
 After this is done, go back to your ``Dashboard`` and click on ``Enable`` to enable processing the feed. Then post new stuff to your RSS feed and watch the update!
-
-
-## Pulling Twitter feeds
-
-Personally, I use https://twitrss.me/ to pull my twitter feed into RSSTootalizer.
