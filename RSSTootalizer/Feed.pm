@@ -9,7 +9,9 @@ use Data::Dumper;
 use RSSTootalizer::Filter;
 use RSSTootalizer::Entry;
 use XML::Feed;
-use URI;
+#use URI;
+use LWP::UserAgent;
+use IO::Socket::SSL;
 
 sub dbTable :lvalue { "feeds"; }
 sub orderBy :lvalue { "ID ASC"; }
@@ -58,7 +60,19 @@ sub fetch_entries {
 	my $self = shift;
 
 	$XML::Feed::MULTIPLE_ENCLOSURES = 1;
-	return XML::Feed->parse(URI->new($self->{data}->{url}));
+	my $retVal;
+	eval {
+		#$retVal = XML::Feed->parse(URI->new($self->{data}->{url}));
+		my $ua = LWP::UserAgent->new;
+		$ua->ssl_opts(SSL_verify_mode => IO::Socket::SSL::SSL_VERIFY_NONE, verify_hostname => 0);
+		my $res = $ua->get($self->{data}->{url});
+		unless ($res->is_success) {
+			print STDERR "Failed to GET ", $self->{data}->{url}, $res->status_line, "\n";
+		}
+		$retVal = XML::Feed->parse(\$res->content);
+		print STDERR "retVal is: ", $retVal, "\n";
+		return $retVal;
+	}
 }
 sub entry_by {
 	my $self = shift;

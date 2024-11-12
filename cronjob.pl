@@ -78,8 +78,16 @@ FEED: foreach my $feed (@feeds){
 			}
 			$status =~ s/{Link}/$entry{link}/g;
 			$status =~ s/{Content}/$entry{content}/g;
-			$status =~ s/{Author}/$entry{author}/g;
-			$status =~ s/{Issued}/$entry{issued}/g;
+			if (defined($entry{author})){
+				$status =~ s/{Author}/$entry{author}/g;
+			} else {
+				$status =~ s/{Author}//g;
+			}
+			if (defined($entry{issued})){
+				$status =~ s/{Issued}/$entry{issued}/g;
+			} else {
+				$status =~ s/{Issued}//g;
+			}
 			$status =~ s/{Modified}/$entry{modified}/g;
 			$status =~ s/{Tags}/$entry{tags}/g;
 
